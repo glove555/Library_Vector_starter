@@ -77,7 +77,18 @@ int checkin(int bookid){
  *    the patron_id of the person added
  */
 int enroll(std::string &name){
-	return 0;
+	reloadAllData();
+	patron person;
+
+	person.name = name;
+	person.patron_id = patrons.size();
+	person.number_books_checked_out = 0;
+
+	patrons.push_back(person);
+
+	savePatrons(patrons, PATRONFILE.c_str());
+
+	return person.patron_id;
 }
 
 /*
@@ -95,8 +106,8 @@ int numbBooks(){
  * (ie. if 3 patrons returns 3)
  */
 int numbPatrons(){
-//	return *patrons;
-return 0;
+	reloadAllData();
+	return patrons.size();
 }
 
 /*the number of books patron has checked out
@@ -105,7 +116,11 @@ return 0;
  *        or PATRON_NOT_ENROLLED         
  */
 int howmanybooksdoesPatronHaveCheckedOut(int patronid){
-	return 0;
+	reloadAllData();
+	if (patrons.size() >= 10000){
+		return PATRON_NOT_ENROLLED;
+	}
+	return patrons[patronid].number_books_checked_out;
 }
 
 /* search through patrons container to see if patronid is there
@@ -115,7 +130,13 @@ int howmanybooksdoesPatronHaveCheckedOut(int patronid){
  *         PATRON_NOT_ENROLLED no patron with this patronid
  */
 int whatIsPatronName(std::string &name,int patronid){
-
+	reloadAllData();
+	if (patrons.size() >= 10000){
+		return PATRON_NOT_ENROLLED;
+	}
+	if (patrons[patronid].name == name){
+		return SUCCESS;
+	}
 	return SUCCESS;
 }
 
