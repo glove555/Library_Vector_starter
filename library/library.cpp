@@ -8,6 +8,9 @@
 #include "../includes_usr/datastructures.h"
 #include "../includes_usr/fileIO.h"
 using namespace std;
+vector<book> books;
+vector<patron> patrons;
+
 
 //NOTE: please ensure patron and book data are loaded from disk before calling the following
 //NOTE: also make sure you save patron and book data to disk any time you make a change to them
@@ -18,7 +21,10 @@ using namespace std;
  * then reload them from disk 
  */
 void reloadAllData(){
-
+	books.clear();
+	patrons.clear();
+	loadBooks(books, BOOKFILE.c_str());
+	loadPatrons(patrons, PATRONFILE.c_str());
 }
 
 /* checkout a book to a patron
@@ -80,7 +86,8 @@ int enroll(std::string &name){
  * 
  */
 int numbBooks(){
-	return 0;
+	reloadAllData();
+	return books.size();
 }
 
 /*
@@ -88,7 +95,8 @@ int numbBooks(){
  * (ie. if 3 patrons returns 3)
  */
 int numbPatrons(){
-	return 0;
+//	return *patrons;
+return 0;
 }
 
 /*the number of books patron has checked out
@@ -107,6 +115,7 @@ int howmanybooksdoesPatronHaveCheckedOut(int patronid){
  *         PATRON_NOT_ENROLLED no patron with this patronid
  */
 int whatIsPatronName(std::string &name,int patronid){
+
 	return SUCCESS;
 }
 
